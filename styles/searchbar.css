@@ -1,0 +1,26 @@
+#search-icon {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+form {
+    margin-top: 50px;
+    margin-bottom: 25px;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+#search {
+    height: 30px;
+    min-width: 300px;
+    border-radius: 12px;
+    border: none;
+    background-color: #c7c7c7;
+    padding: 0 15px;
+}

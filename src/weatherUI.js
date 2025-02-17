@@ -1,7 +1,6 @@
 import { weatherManager } from "./weatherManager";
 
 export const weatherUI = (function() {
-
     const country = document.getElementById('country');
     const location = document.getElementById('localization');
     const conditions = document.getElementById('condition');
@@ -21,36 +20,57 @@ export const weatherUI = (function() {
     const sunrise = document.getElementById('sunrise');
     const sunset = document.getElementById('sunset');
 
-    async function displayWeather(location) {
-        const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=${weatherManager.getApiKey()}`;
-
-        const response = await fetch(url);
-        const weatherData = await response.json();
-        setupDisplay(weatherManager.convertData(weatherData));
+    function initUI() {
+        setupSearchBar();
     }
 
-    function setupDisplay(weatherData) {
-        country.textContent = weatherData.address;
-        location.textContent = weatherManager.getCurrentLocation();
+    async function displayWeather() {
+        const weatherData = await weatherManager.getWeatherData();
+        updateDisplayData(weatherManager.convertData(weatherData));
+    }
+
+    async function updateDisplayData(weatherData) {
         conditions.textContent = weatherData.conditions;
         description.textContent = weatherData.description;
-        temp.textContent = weatherData.temp;
-        feelslike.textContent = weatherData.feelslike;
-        tempmax.textContent = weatherData.tempmax;
-        tempmin.textContent = weatherData.tempmin;
-        feelslikemax.textContent = weatherData.feelslikemax;
-        feelslikemin.textContent = weatherData.feelslikemin;
-        humidity.textContent = weatherData.humidity;
-        windspeed.textContent = weatherData.windspeed;
-        pressure.textContent = weatherData.pressure;
-        visibility.textContent = weatherData.visibility;
-        cloudcover.textContent = weatherData.cloudcover;
-        snow.textContent = weatherData.snow;
+        temp.textContent = `${weatherData.temp}°`;
+        feelslike.textContent = `${weatherData.feelslike}°`;
+        tempmax.textContent = `${weatherData.tempmax}°`;
+        tempmin.textContent = `${weatherData.tempmin}°`;
+        feelslikemax.textContent = `${weatherData.feelslikemax}°`;
+        feelslikemin.textContent = `${weatherData.feelslikemin}°`;
+        humidity.textContent = `${weatherData.humidity}%`;
+        windspeed.textContent = `${weatherData.windspeed} km/h`;
+        pressure.textContent = `${weatherData.pressure} hPa`;
+        visibility.textContent = `${weatherData.visibility} km`;
+        cloudcover.textContent = `${weatherData.cloudcover}%`;
+        snow.textContent = `${weatherData.snow} mm`;
         sunrise.textContent = weatherData.sunrise;
         sunset.textContent = weatherData.sunset;
+
+        const countryName = await weatherManager.getCountryName()
+        country.textContent = countryName.toLowerCase();
+        location.textContent = await weatherManager.getCityName();
+    }
+
+    function setupSearchBar() {
+        const searchIcon = document.getElementById('search-icon');
+        const searchBar = document.getElementById('search');
+        const searchForm = document.querySelector('form');
+
+        searchIcon.addEventListener('click', () => {
+            searchBar.focus();
+        });
+
+        searchForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await weatherManager.convertToCoordinates(searchBar.value);
+            await displayWeather();
+            searchBar.value = '';
+        });
     }
 
     return {
-        displayWeather
+        displayWeather,
+        initUI
     }
 })();

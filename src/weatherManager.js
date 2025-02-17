@@ -12,7 +12,16 @@ export const weatherManager = (function() {
         return currentLocation;
     }
 
+    function setCurrentLocation(location) {
+        currentLocation = location;
+    }
+
     function convertData(data) {
+        if (!data || !data.days || data.days.length === 0) {
+            console.error("Invalid weather data:", data);
+            return {};
+        }
+
         return {
             conditions: data.days[0].conditions,
             description: data.days[0].description,
@@ -29,53 +38,103 @@ export const weatherManager = (function() {
             cloudcover: data.days[0].cloudcover,
             snow: data.days[0].snow,
             sunrise: data.days[0].sunrise,
-            sunset: data.days[0].sunset
+            sunset: data.days[0].sunset,
         }
     }
 
-    function getLocation() {
+    async function getLocation() {
         return new Promise((resolve, reject) => {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    async (position) => {
-                        const latitude = position.coords.latitude;
-                        const longitude = position.coords.longitude;
-                        try {
-                            const cityName = await getCityName(latitude, longitude);
-                            currentLocation = cityName;
-                            resolve(cityName);
-                        } catch (error) {
-                            console.error("Error getting city name:", error.message);
-                            reject(error);
-                        }
-                    },
-                    (error) => {
-                        console.error("Error getting location:", error.message);
-                        reject(error);
-                    }
-                );
-            } else {
-                console.error("Geolocation is not supported by this browser.");
-                reject(new Error("Geolocation is not supported by this browser."));
-            }
+            navigator.geolocation.watchPosition(
+                (position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    resolve({ latitude, longitude });
+                },
+                (error) => {
+                    console.error(error);
+                    reject(error);
+                },
+                { enableHighAccuracy: true }
+            );
         });
     }
 
-    async function getCityName(lat, lon) {
-        const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat},${lon}?unitGroup=metric&key=${apiKey}&contentType=json`;
+    async function getWeatherData() {
+        const location = currentLocation;
+        const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location.latitude},${location.longitude}?key=${apiKey}`;
     
-        const response = await fetch(url);
-        const cityData = await response.json();
-        const cityName = cityData.resolvedAddress;
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error("Błąd pobierania danych");
+            
+            const data = await response.json();
+            console.log("Weather data:", data); //debuging
+            return data;
+        } catch (error) {
+            console.error("Error:", error);
+            return null;
+        }
+    }
+
+    async function getCityName() {
+        try {
+            const lat = currentLocation.latitude;
+            const lon = currentLocation.longitude;
     
-        return cityName;
+            const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`;
+            const response = await fetch(url);
+            const responseData = await response.json();
+    
+            const address = responseData.address;
+            const city = address.city || address.town || address.village || 'City not found';
+            return city;
+
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    }
+
+    async function getCountryName() {
+        try {
+            const lat = currentLocation.latitude;
+            const lon = currentLocation.longitude;
+    
+            const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`;
+            const response = await fetch(url);
+            const responseData = await response.json();
+    
+            const country = responseData.address.country || 'Country not found';
+            return country;
+
+        } catch (error) {
+            console.error('Fetch error:', error);
+        }
+    }
+
+    async function convertToCoordinates(name) {
+        try {
+            const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(name)}&format=json&limit=1`;
+            const response = await fetch(url);
+            const responseData = await response.json();
+    
+            if (responseData && responseData.length > 0) {
+                const { lat, lon } = responseData[0];
+                currentLocation.latitude = lat;
+                currentLocation.longitude = lon;
+            } else {
+                console.error('City not found.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+
     }
 
     async function init() {
         try {
             currentLocation = await getLocation();
-            console.log(currentLocation);
-            await weatherUI.displayWeather(currentLocation);
+            await weatherUI.displayWeather();
+            weatherUI.initUI();
         } catch (error) {
             console.error("Error initializing weather display:", error.message);
         }
@@ -84,7 +143,12 @@ export const weatherManager = (function() {
     return {
         init,
         getApiKey,
+        getWeatherData,
         convertData,
-        getCurrentLocation
+        getCurrentLocation,
+        setCurrentLocation,
+        getCountryName,
+        getCityName,
+        convertToCoordinates
     }
 })();
