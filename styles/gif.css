@@ -1,0 +1,26 @@
+#preview-content {
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+}
+
+#gif-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+#gif {
+    display: flex;
+    position: absolute;
+    z-index: 0;
+    height: calc(100% + 50px);
+    min-width: 600px;
+
+    top: -30px;
+    background-color: black;
+    opacity: 0.25;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}

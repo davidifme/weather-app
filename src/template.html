@@ -6,29 +6,40 @@
     <title>Weather App</title>
 </head>
 <body>
-    <form novalidate>
-        <div class="search-container">
-            <img src="/icons/search-icon.svg" id="search-icon" alt="search-icon">
-            <input type="text" name="search" id="search">
+    <div id="settings">
+        <form novalidate>
+            <div class="search-container">
+                <img src="/icons/search-icon.svg" id="search-icon" alt="search-icon">
+                <input type="text" name="search" id="search">
+            </div>
+        </form>
+        <div class="buttons">
+            <button type="button" id="celsius-button">Celsius</button>
+            <button type="button" id="fahrenheit-button">Fahrenheit</button>
         </div>
-    </form>
+    </div>
 
     <div id="display">
-        <h1>Todays Weather</h1>
-
-        <div class="preview-container">
-            <div class="country-container">
-                <img id="location-icon" src="/icons/location-icon.svg" alt="location-icon">
-                <h3 id="country">country</h3>
+        <div id="gif-container">
+            <div id="preview-content">
+                <h1>Todays Weather</h1>
+                <div class="preview-container">
+                    <div class="country-container">
+                        <img id="location-icon" src="/icons/location-icon.svg" alt="location-icon">
+                        <h3 id="country">country</h3>
+                    </div>
+                    <p id="localization">Location</p>
+                    <h2 id="temperature">-4°</h2>
+                    <p id="condition">Partly Cloudy</p>
+                    <div class="temperature-high-low-container">
+                        <p class="temperature-high">H:-1°</p>
+                        <p class="temperature-low">L:-9°</p>
+                    </div>
+                </div>
             </div>
-            <p id="localization">Location</p>
-            <h2 id="temperature">-4°</h2>
-            <p id="condition">Partly Cloudy</p>
-            <div class="temperature-high-low-container">
-                <p class="temperature-high">H:-1°</p>
-                <p class="temperature-low">L:-9°</p>
-            </div>
+            <img id="gif" src="#" alt="gif">
         </div>
+
 
         <div class="description-container">
             <h3 id="description-title">Conditions</h3>
