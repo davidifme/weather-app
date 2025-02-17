@@ -1,0 +1,108 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 95vh;
+}
+
+#display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid black;
+}
+
+/* Preview */
+h1 {
+  font-size: 45px;
+}
+
+.preview-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  border: 1px solid black;
+}
+
+.country-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+#country {
+  font-size: 25px;
+  font-variant: small-caps;
+}
+
+#localization {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+#temperature {
+  font-size: 120px;
+}
+
+#condition {
+  font-size: 30px;
+  opacity: 0.6;
+  font-weight: bolder;
+}
+
+.temperature-high-low-container,
+.fells-like-high-low-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.temperature-high,
+.temperature-low {
+  font-size: 25px;
+}
+
+/* Description */
+.description-container {
+  border: 1px solid black;
+  width: 80%;
+}
+
+#description-title {
+  font-size: 20px;
+}
+
+#description-text {
+  font-size: 18px;
+  font-weight: lighter;
+}
+
+/* Info */
+.info-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.info-container > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 130px;
+  border: 1px solid black;
+}
+
+/* Icons */
+#location-icon {
+  width: 20px;
+  height: 20px;
+}
