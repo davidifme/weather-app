@@ -1,4 +1,4 @@
-import { weatherManager } from "./weatherManager";
+import { weatherManager } from "./weatherManager.js";
 import snowGif from "/gifs/snow.gif";
 import rainGif from "/gifs/rain.gif";
 import hotGif from "/gifs/hot.gif";
@@ -30,7 +30,7 @@ export const weatherUI = (function() {
 
     const gif = document.getElementById('gif');
 
-    let currentDegreeSetup = 'C';
+    let currentDegreeSetup = 'F';
     let currentWeatherState;
 
     function initUI() {
@@ -44,6 +44,7 @@ export const weatherUI = (function() {
 
         updateDisplayData(convertedWeatherData);
         displayGif(convertedWeatherData);
+        changeColors(currentWeatherState);
     }
 
     async function updateDisplayData(weatherData) {
@@ -130,7 +131,40 @@ export const weatherUI = (function() {
     }
 
     function changeColors(weatherState) {
+        const descriptionContainer = document.querySelector('.description-container');
+        const infoContainers = document.querySelectorAll('.info-container > div');
 
+        if (weatherState === 'snow') {
+            descriptionContainer.style.backgroundColor = '#00BFFF';
+            infoContainers.forEach(container => {
+                container.style.backgroundColor = '#00BFFF';
+            });
+        } else if (weatherState === 'rain') {
+            descriptionContainer.style.backgroundColor = '#1E3A5F';
+            infoContainers.forEach(container => {
+                container.style.backgroundColor = '#1E3A5F';
+            });
+        } else if (weatherState === 'clouds') {
+            descriptionContainer.style.backgroundColor = '#D3D3D3';
+            infoContainers.forEach(container => {
+                container.style.backgroundColor = '#D3D3D3';
+            });
+        } else if (weatherState === 'sunny') {
+            descriptionContainer.style.backgroundColor = '#FFD700';
+            infoContainers.forEach(container => {
+                container.style.backgroundColor = '#FFD700';
+            });
+        } else if (weatherState === 'hot') {
+            descriptionContainer.style.backgroundColor = '#00BFFF';
+            infoContainers.forEach(container => {
+                container.style.backgroundColor = '#00BFFF';
+            });
+        } else {
+            descriptionContainer.style.backgroundColor = '#A9A9A9';
+            infoContainers.forEach(container => {
+                container.style.backgroundColor = '#A9A9A9';
+            });
+        }
     }
 
     function setupButtons() {

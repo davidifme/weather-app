@@ -44,20 +44,20 @@ export const weatherManager = (function() {
 
     async function getLocation() {
         return new Promise((resolve, reject) => {
-            navigator.geolocation.watchPosition(
-                (position) => {
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
-                    resolve({ latitude, longitude });
-                },
-                (error) => {
-                    console.error(error);
-                    reject(error);
-                },
-                { enableHighAccuracy: true }
-            );
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const { latitude, longitude } = position.coords;
+              resolve({ latitude, longitude });
+            },
+            (error) => {
+              console.error('Błąd pobierania lokalizacji:', error);
+              reject(error);
+            },
+            { enableHighAccuracy: true }
+          );
         });
-    }
+      }
+      
 
     async function getWeatherData() {
         const location = currentLocation;
@@ -68,7 +68,6 @@ export const weatherManager = (function() {
             if (!response.ok) throw new Error("Błąd pobierania danych");
             
             const data = await response.json();
-            console.log("Weather data:", data); //debuging
             return data;
         } catch (error) {
             console.error("Error:", error);
