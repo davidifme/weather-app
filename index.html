@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+<script defer src="main.js"></script></head>
+<body>
+    <div id="settings">
+        <form novalidate>
+            <div class="search-container">
+                <img src="39ca87415b2dd6a0cf1e.svg" id="search-icon" alt="search-icon">
+                <input type="text" name="search" id="search">
+            </div>
+        </form>
+        <div class="buttons">
+            <button type="button" id="celsius-button">Celsius</button>
+            <button type="button" id="fahrenheit-button">Fahrenheit</button>
+        </div>
+    </div>
+
+    <div id="display">
+        <div id="gif-container">
+            <div id="preview-content">
+                <h1>Todays Weather</h1>
+                <div class="preview-container">
+                    <div class="country-container">
+                        <img id="location-icon" src="a1fb03b7cdba894f0b50.svg" alt="location-icon">
+                        <h3 id="country">country</h3>
+                    </div>
+                    <p id="localization">Location</p>
+                    <h2 id="temperature">-4°</h2>
+                    <p id="condition">Partly Cloudy</p>
+                    <div class="temperature-high-low-container">
+                        <p class="temperature-high">H:-1°</p>
+                        <p class="temperature-low">L:-9°</p>
+                    </div>
+                </div>
+            </div>
+            <img id="gif" src="#" alt="gif">
+        </div>
+
+        <div class="description-container">
+            <h3 id="description-title">Conditions</h3>
+            <p id=description-text>Clear conditions expected around 20:00. Wind gusts are up to 4 m/s.</p>
+        </div>
+
+        <div class="info-container">
+            <div class="fells-like-container">
+                <h4 id="fells-like-title">Fells Like</h4>
+                <p id="fells-like-temperature">-4°</p>
+                <div class="fells-like-high-low-container">
+                    <p id="fells-like-high">H:-1°</p>
+                    <p id="fells-like-low">L:-9°</p>
+                </div>
+            </div>
+            <div class="humidity-container">
+                <h4 id="humidity-title">Humidity</h4>
+                <p id="humidity">84.4%</p>
+            </div>
+
+            <div class="windspeed-container">
+                <h4 id="windspeed-title">Windspeed</h4>
+                <p id="windspeed">5.8 km/h</p>
+            </div>
+
+            <div class="pressure-container">
+                <h4 id="pressure-title">Pressure</h4>
+                <p id="pressure">1024.7 hPa</p>
+            </div>
+
+            <div class="visibility-container">
+                <h4 id="visibility-title">Visibility</h4>
+                <p id="visibility">9 km</p>
+            </div>
+
+            <div class="cloudcover-container">
+                <h4 id="cloudcover-title">Cloud Cover</h4>
+                <p id="cloudcover">90.1%</p>
+            </div>
+
+            <div class="snow-container">
+                <h4 id="snow-title">Snow</h4>
+                <p id="snow">0.1 cm</p>
+            </div>
+
+            <div class="sunrise-container">
+                <h4 id="sunrise-title">Sunrise</h4>
+                <p id="sunrise">07:10</p>
+            </div>
+
+            <div class="sunset-container">
+                <h4 id="sunset-title">Sunset</h4>
+                <p id="sunset">17:16</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
